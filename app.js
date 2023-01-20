@@ -1,15 +1,17 @@
-
 import selfcore from "selfcore";
+import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+dotenv.config()
 
 const client = new selfcore();
-const gateway = new selfcore.Gateway("OTc0NDA2NDgxNjI3NzI1ODQ0.GUTH2S.61RQCxehV2PYhrfiXgdmKppxhd9ZD7rng0D1Lk");
-
+const gateway = new selfcore.Gateway(process.env.GATEWAY_URL);
+console.log("Ready!")
 gateway.on("message", (m) => {
-  if (m.channel_id === "974407015189319801") {
+  if (m.channel_id === "974407015189319801") 
+  {
     let content = m.content ? m.content : { embeds: [m.embeds[0]] };
 
     client.sendWebhook(
-      "https://discord.com/api/webhooks/1065348747581722794/8G3d16UEKofYfi-tAkWXTJZvA9xtsr8blOEFBqwRis9iN4MvCrWsstYo_tv4Ni7bmLwB",
+      process.env.WEBHOOK_URL,
       content
     );
   }
